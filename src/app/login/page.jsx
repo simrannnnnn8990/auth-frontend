@@ -117,6 +117,22 @@ export default function LoginPage() {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
+
+          <div className="my-5 flex items-center gap-3">
+  <div className="h-px flex-1 bg-gray-200"></div>
+
+  <span className="text-sm text-gray-400">OR</span>
+
+  <div className="h-px flex-1 bg-gray-200"></div>
+</div>
+
+<a
+  href="/otp"
+  className="block w-full rounded-lg border border-blue-600 px-4 py-3 text-center font-medium text-blue-600 transition hover:bg-blue-50"
+>
+  Login with OTP
+</a>
+          
         </form>
 
         <p className="mt-6 text-center text-sm text-gray-500">

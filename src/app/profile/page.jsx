@@ -1,21 +1,57 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const handleLogout = async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/auth/logout",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          refreshToken,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      console.log("Logout request failed");
+    }
+  } catch (error) {
+    console.log("Logout error:", error);
+  } finally {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
+    router.push("/login");
+  }
+};
 
   useEffect(() => {
     const getProfile = async () => {
       const accessToken = localStorage.getItem("accessToken");
 
-      if (!accessToken) {
-        setError("Please login first");
-        setLoading(false);
-        return;
-      }
+    //   if (!accessToken) {
+    //     setError("Please login first");
+    //     setLoading(false);
+    //     return;
+    //   }
+    if (!accessToken) {
+  router.push("/login");
+  return;
+}
 
       try {
         const response = await fetch(
@@ -62,7 +98,7 @@ export default function ProfilePage() {
         </h1>
 
         {error && (
-          <p className="mt-6 rounded-lg bg-red-50 px-4 py-3 text-red-600">
+          <p className="mt-6 rounded-lg bg-blue-50 px-4 py-3 text-red-600">
             {error}
           </p>
         )}
@@ -89,6 +125,14 @@ export default function ProfilePage() {
                 {user.role}
               </p>
             </div>
+
+ <button
+  onClick={handleLogout}
+  className="mt-6 w-full rounded-lg bg-blue-600 px-4 py-3 font-medium text-white transition hover:bg-red-700"
+>
+  Logout
+</button>
+
           </div>
         )}
       </div>
