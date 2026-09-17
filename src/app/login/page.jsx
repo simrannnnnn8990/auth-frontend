@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -97,6 +97,13 @@ export default function LoginPage() {
               required
             />
           </div>
+
+          <Link
+  href="/forgot-password"
+  className="text-sm text-blue-600 hover:underline"
+>
+  Forgot Password?
+</Link>
 
           {error && (
             <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
